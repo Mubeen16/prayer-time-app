@@ -75,19 +75,34 @@ def get_prayer_times(
         )
         fajr_fallback = False
     except ValueError:
-        fajr = sunrise - (sunrise - maghrib) / 2
+        # Fallback: Half of night
+        # Night duration: (Sunrise tomorrow) - Maghrib
+        # We approximate using sunrise today + 24 hours
+        from datetime import timedelta
+        night_duration = (sunrise + timedelta(days=1)) - maghrib
+        fajr = sunrise - (night_duration / 2)
         fajr_fallback = True
 
     # -----------------------
-    # Asr
+    # Asr (Standard + Hanafi)
     # -----------------------
-    asr = solar.asr_time(
+    asr_standard = solar.asr_time(
         latitude=latitude,
         longitude=longitude,
         on_date=on_date,
         tz=tz,
-        asr_factor=method.get("asr_factor", 1),
+        asr_factor=1,
     )
+    asr_hanafi = solar.asr_time(
+        latitude=latitude,
+        longitude=longitude,
+        on_date=on_date,
+        tz=tz,
+        asr_factor=2,
+    )
+    
+    # Primary Asr based on method
+    asr_primary = asr_hanafi if method.get("asr_factor", 1) == 2 else asr_standard
 
     # -----------------------
     # Isha (with fallback)
@@ -106,7 +121,10 @@ def get_prayer_times(
             )
         isha_fallback = False
     except ValueError:
-        isha = maghrib + (sunrise - maghrib) / 2
+        # Fallback: Half of night
+        from datetime import timedelta
+        night_duration = (sunrise + timedelta(days=1)) - maghrib
+        isha = maghrib + (night_duration / 2)
         isha_fallback = True
 
     # -----------------------
@@ -132,7 +150,9 @@ def get_prayer_times(
             "fajr": fmt(fajr),
             "sunrise": fmt(sunrise),
             "zuhr": fmt(solar_noon),
-            "asr": fmt(asr),
+            "asr": fmt(asr_primary),
+            "asr_standard": fmt(asr_standard),
+            "asr_hanafi": fmt(asr_hanafi),
             "maghrib": fmt(maghrib),
             "isha": fmt(isha),
         },

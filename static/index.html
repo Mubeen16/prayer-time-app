@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Al-Vaqth - Prayer Times</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Overlay for Sidebar -->
+    <div id="overlay" class="overlay"></div>
+
+    <!-- Sidebar -->
+    <nav id="sidebar" class="sidebar">
+        <button id="close-sidebar" class="close-btn">&times;</button>
+        <h2>Rafeeq Roadmap</h2>
+        <ul class="nav-links">
+            <li><strong>Phase 1:</strong> Time Engine (Done ✅)</li>
+            <li><strong>Phase 2:</strong> AI Scheduler (Done ✅)</li>
+            <li><strong>Phase 3:</strong> Mobile App (Coming Soon)</li>
+            <li><strong>Phase 4:</strong> Community (Planned)</li>
+        </ul>
+        <div class="footer-info">
+            <p>Version 0.2.0 (Alpha)</p>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- New Navbar -->
+        <nav class="top-nav">
+            <button id="menu-btn" class="icon-btn">
+                <span class="hamburger">☰</span>
+            </button>
+            <div class="location-display">
+                <span class="pin-icon">📍</span>
+                <span id="location-name">Detecting...</span>
+            </div>
+        </nav>
+
+        <header>
+            <div class="super-brand">Rafeeq Project</div>
+            <h1>Al-Vaqth <span class="arabic">الوقت</span></h1>
+            <p class="subtitle">Prayer Times in <strong id="location-name">London, UK</strong></p>
+
+            <div class="search-container">
+                <input type="text" id="location-input" placeholder="City or Postcode (e.g. Manchester, E1 6AN)">
+                <button id="search-btn">Search</button>
+            </div>
+        </header>
+
+        <main>
+            <!-- Prayer Cards -->
+            <section>
+                <div id="prayer-cards" class="prayer-cards-container">
+                    <div class="loading-spinner">Locating you...</div>
+                </div>
+            </section>
+
+            <!-- AI Section (Teaser) -->
+            <section class="ai-section teaser">
+                <h3>Rafeeq AI &trade;</h3>
+                <p class="desc-text">Your Personal Accountability Partner.</p>
+                <div class="coming-soon-badge">Coming Soon</div>
+            </section>
+        </main>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+
+</html>
