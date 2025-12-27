@@ -4,6 +4,7 @@ from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from datetime import date
 from core.prayer_times import get_prayer_times
+from fastapi.middleware.cors import CORSMiddleware
 
 from core.methods import METHODS
 from core.scheduler import calculate_schedule
@@ -13,6 +14,15 @@ app = FastAPI(
     title="Al-Vaqth API",
     description="Backend for Al-Vaqth - The Prayer Time Engine.",
     version="1.0.0"
+)
+
+# CORS (Required for React Frontend)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], # In prod, specify the exact origin
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
