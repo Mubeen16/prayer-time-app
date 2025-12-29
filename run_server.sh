@@ -11,10 +11,11 @@ else
     echo "Virtual environment not found. Creating one..."
     python3 -m venv "$DIR/venv"
     source "$DIR/venv/bin/activate"
-    pip install -r "$DIR/requirements.txt"
+    pip install -r "$DIR/backend/requirements.txt"
     pip install httpx
 fi
 
 # Run the server
 echo "Starting Rafeeq API..."
-python "$DIR/api/main.py"
+cd "$DIR/backend"
+python -m uvicorn api.main:app --host 0.0.0.0 --port 8000 --reload

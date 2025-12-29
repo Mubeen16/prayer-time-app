@@ -19,6 +19,14 @@ METHODS = {
         "fajr_angle": 18.0,
         "isha_angle": 17.0,
         "asr_factor": 1,
+        "offsets": {
+            "fajr": 24,
+            "sunrise": 0,
+            "zuhr": 6,
+            "asr": 2,
+            "maghrib": 4,
+            "isha": -17
+        }
     },
 
     # Islamic Society of North America

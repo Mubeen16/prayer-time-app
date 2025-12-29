@@ -128,6 +128,27 @@ def get_prayer_times(
         isha_fallback = True
 
     # -----------------------
+    # Apply Offsets
+    # -----------------------
+    offsets = method.get("offsets", {})
+    
+    def apply_offset(dt, key):
+        if key in offsets:
+            from datetime import timedelta
+            return dt + timedelta(minutes=offsets[key])
+        return dt
+
+    fajr = apply_offset(fajr, "fajr")
+    sunrise = apply_offset(sunrise, "sunrise")
+    solar_noon = apply_offset(solar_noon, "zuhr")
+    asr_primary = apply_offset(asr_primary, "asr")
+    asr_standard = apply_offset(asr_standard, "asr") # Apply asr offset to both
+    asr_hanafi = apply_offset(asr_hanafi, "asr")
+    maghrib = apply_offset(maghrib, "maghrib")
+    isha = apply_offset(isha, "isha")
+
+
+    # -----------------------
     # Output formatting
     # -----------------------
     def fmt(dt):
