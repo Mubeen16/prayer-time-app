@@ -17,7 +17,35 @@ const RafeeqOptIn = ({ isOpen, onClose, lat, lng }) => {
 
     if (!isOpen) return null;
 
-    const handleNext = () => setStep(step + 1);
+    // --- Actions ---
+    const checkUser = async () => {
+        if (!phone) return;
+
+        try {
+            const res = await fetch(`${API_BASE}/rafeeq/status?phone_number=${encodeURIComponent(phone)}`);
+            if (res.ok) {
+                const data = await res.json();
+                if (data.status === "active") {
+                    setName(data.name || "");
+                    if (data.preferences) {
+                        setPrayers(data.preferences.prayers || []);
+                        setMethod(data.preferences.method || "text");
+                        setIntensity(data.preferences.intensity || "steady");
+                    }
+                    // Optionally show a toast here?
+                }
+            }
+        } catch (e) {
+            console.error("Failed to check user:", e);
+        }
+    };
+
+    const handleNext = async () => {
+        // Pre-fetch check
+        await checkUser();
+        setStep(step + 1);
+    };
+
     const handleBack = () => setStep(step - 1);
 
     const togglePrayer = (p) => {
@@ -83,6 +111,7 @@ const RafeeqOptIn = ({ isOpen, onClose, lat, lng }) => {
                     placeholder="+447..."
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
+                    onBlur={checkUser} // Also check on blur for UX
                     required
                 />
             </div>

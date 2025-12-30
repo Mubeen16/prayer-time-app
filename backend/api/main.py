@@ -8,8 +8,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from core.methods import METHODS
 from core.scheduler import calculate_schedule
+from core.scheduler import calculate_schedule
 from typing import List, Optional
-from api import rafeeq
 
 app = FastAPI(
     title="Al-Vaqth API",
@@ -26,7 +26,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(rafeeq.router)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 class PrayerTimesRequest(BaseModel):
